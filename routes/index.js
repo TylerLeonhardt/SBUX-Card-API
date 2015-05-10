@@ -5,9 +5,9 @@ var request = require('request');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  if(req.query.cardnumber != undefined && req.query.cardnumber != null && req.query.pin != undefined && req.query.pin != null){
+  if(req.query.card_number != undefined && req.query.card_number != null && req.query.pin != undefined && req.query.pin != null){
 
-  	request.post({url:'https://www.starbucks.com/card/guestbalance', form: {"Card.Number":req.query.cardnumber,"Card.Pin":req.query.pin}}, function(err,httpResponse,body){ 
+  	request.post({url:'https://www.starbucks.com/card/guestbalance', form: {"Card.Number":req.query.card_number,"Card.Pin":req.query.pin}}, function(err,httpResponse,body){ 
 
   		if(body != undefined && body != null){
 
@@ -28,7 +28,10 @@ router.get('/', function(req, res, next) {
 		  		res.send(data);
 
 		  	}catch(err){
-		  		res.send('could not find card');
+		  		res.send({
+		  			bal:"Error: Could not lookup card",
+		  			lastUpdated:null
+		  		});
 		  	};
 
   		}else{
